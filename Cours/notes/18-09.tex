@@ -1,0 +1,112 @@
+\chapter*{Présentation de l'UV}
+\addcontentsline{toc}{chapter}{\numberline{}Présentation de l'UV}
+
+Le barème se présente ainsi :
+\begin{itemize}
+\item TP 40\%
+\item Final 60\%
+\end{itemize}
+\vspace*{2ex}
+
+\indent Les objectifs de l'UV sont :
+\begin{itemize}
+  \item Connaitre et maitriser les paradigmes de conception des algos
+    \begin{itemize}
+      \item[*] paradigme itératif
+      \item[*] paradigme diviser pour regner
+      \item[*] paradigme de programmation dynamique
+      \item[*] paradigmes gloutons
+      \item[*] paradigmes de recherche exhaustive
+      \item[*] paradigme des algos d'approximation
+      \item[*] la complétude NP
+      \item[*] algorithmique parallèle (UPC)
+      \item[*] algorithmes aléatoires
+    \end{itemize}
+  \item Comprendre les textes algorithmiques actuels
+  \item Étudier les structures de données avancées
+\end{itemize}
+
+\chapter{Analyse des algorithmes}
+L'analyse des algorithmes, c'est :
+\begin{itemize}
+  \item estimer les ressources CPU et mémoire nécessaires à son exécution
+  \item comparer les algorithmes entre eux
+  \item déterminer les algos les plus efficaces
+\end{itemize}
+
+La mesure du coût d'un algorithme repose sur le deux facteurs, la mesure du
+coût en temps CPU (coût temporel) et la mesure du coût en espace mémoire.
+
+\section{Analyse d'un algorithme : le tri par insertion}
+
+Le principe du tri par insertion est très simple : il repose sur la méthode
+\og naturelle \fg que nous utilisons pour le tri. Au fur et à mesure des
+itérations dans la liste, nous insérons les éléments à leur place parmis les
+éléments précédemment parcourus.
+
+Voici l'algorithme utilisé pour un tableau A donné :
+\begin{lstlisting}
+Variables :
+  i, j, cle, entiers
+
+DEBUT
+  POUR j allant de 2 a taille(A)
+  REPETER
+    cle = A[j]
+    //Insertion de la cle dans le sous tableau
+    i = j-1
+    TANT QUE i >0 ET A[i] > cle
+    FAIRE
+      A[i+1]  = A[i]
+      i=i-1
+    FIN TANT QUE
+    A[i+1] = cle
+  FIN POUR
+FIN
+\end{lstlisting}
+Calculons maintenant la complexité de cet algorithme :
+\begin{itemize}
+  \item la boucle \verb?POUR? est exécutée \verb?n? fois, \verb?n? étant le
+nombre d'éléments du tableau (coût $C_1$)
+  \item les lignes 7 et 9 sont exécutées \verb?n-1? fois (coûts $C_2$ et
+$C_3$)
+  \item la ligne 10 est exécutée $\displaystyle{\sum_{j=2}^n}t_j$ fois (coût
+$C_4$)
+  \item les lignes 12 et 13 sont exécutées $\displaystyle{
+\sum_{j=2}^n}t_j-1$ fois, (coûts $C_5$ et $C_6$)
+  \item la ligne 15 est exécutée \verb?n-1? fois (coût $C_7$)
+\end{itemize}
+
+On peut donc calculer le coût de l'algorithme par la formule :
+$T(n) = nC_1 + (n-1)C_2 + (n-1)C_3 + C_4\displaystyle{\sum_{j=2}^n}t_j +
+C_5\displaystyle{\sum_{j=2}^n}(t_j-1)  + C_6\displaystyle{\sum_{j=2}^n}(t_j
+-1) + (n-1)C_7$
+
+\subsection{Cas le plus favorable}
+Dans ce cas, le tableau est déjà trié et $t_j=1$.
+
+Donc $T(n) = nC_1 + (n-1)C_2 + (n-1)C_3 + (n-1)C_4 + (n-1)C_7 = n(C_1 + C_2
++ C_3 + C_4 + C_7) - (C_2 + C_3 + C_4 + C_7) = a\times n + b$
+
+\subsection{Cas le moins favorable}
+$t_j = j$, le tableau est trié à l'envers.
+Donc $T(n) = nC_1 + (n-1)C_2 + (n-1)C_3 + (\frac{n(n-1)}{2}-1)C_4 + 
+(\frac{n(n-1)}{2})C_5 +(\frac{n(n-1)}{2})C_6 +(n-1)C_7 = a\times n^2 +
+b\times n + c$
+
+\subsection{Cas moyen}
+$t_j = \frac{j}{2}$
+
+Le calcul est le même que dans le cas le mois favorable et on obtient un
+T(n) de la forme $an^2 + bn + c$.
+
+\paragraph{Remarque importante}
+Les constantes $C_i$ sont liées à la machine, c'est pour cela que l'on
+s'intéresse plutôt à l'ordre de grandeur de $T(n)$ qui est une fonction qui
+dépend de $n$.
+
+$T(n) = an^2 + bn + c = O(n^2)$
+
+\section{Deuxième exemple : le tri fusion}
+
+Ce tri utilise le paradigme \textit{Diviser pour régner}.
