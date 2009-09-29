@@ -1,0 +1,129 @@
+\chapter{Travaux dirigés n\textdegree 1 : Le codage arithmétique à clés
+publiques}
+\section{Rappel : Le système RSA}
+
+La génération de clés RSA se fait en suivant cette méthode :
+\begin{enumerate}
+  \item choix de 2 grands nombres premiers $p$ et $q$.
+  \item Calcul de $m = p \times q$ et $\phi (m)  = (p-1)(q-1)$
+  \item choix de $r$ tel que $PGCD(r, \phi (m)) = 1$
+  \item calcul de $S \equiv r^{-1} [\phi (m)]$
+  \item publication de $(m,r)$ clé publique
+  \item le couple $(s,m)$ forme la clé privée
+\end{enumerate}
+
+Pour crypter le message $M$, on applique la fonction $C(M) \equiv M^r [m]$
+.
+
+
+Pour décoder le message $M$, on applique la fonction $d(M) \equiv M^s [m]$
+.
+\section{Exercice 1}
+\begin{verbatim}
+Debut
+  result = false
+  Si modulo(nombre,2) == 0
+  Alors
+    result = true
+  Sinon
+    Pour i = 3, inférieur à racine de nombre, i+= 2
+    Faire
+      Si modulo(nombre,i) == 0
+      Alors
+        result = true
+      Fin Si
+    Fin Pour
+  Fin si
+  retourner result
+Fin
+\end{verbatim}
+
+\subsection{Calcul de la complexité}
+$Cout = O(\sqrt{m})$
+Si $m = m_0, m_1, ... m_{n-1}$ avec $m \in \{0,1\}$.
+
+$m$ étant fonction de $n$, il nous faut calculer la complexité de $n$.
+\begin{align*}
+n &= \frac{log(m+1)}{log2}\\
+nlog(2) &= log(m+1)\\
+log(2^n) &= log(m+1)\\
+2^n &= m+1 \Rightarrow m=2^n-1\\
+Cout &= O(racine(m)) = O(2^{n/2})
+\end{align*}
+
+\section{Exercice 2}
+\subsection{Donner l'algorithme}
+\begin{verbatim}
+Debut
+  Pour i=2, inférieur à nombre, i++
+  Faire
+    Si i^(nombre-1)%nombre == 1
+    Alors
+      Retourner Vrai
+    Fin si
+  Fin Pour
+  Retourner Faux
+Fin
+\end{verbatim}
+
+\subsection{Donner la complexité}
+Soit $m = (m_0, m_1, ... M_n-1), m \in \{0,1\}$.
+$m = \displaystyle{\sum^{n-1}_{i=0}}m_i2^i$
+\begin{align*}
+a^m &= a^{\displaystyle{\sum^{n-1}_{i=0}}m_i2^i}\\
+&= \displaystyle{\prod^{n-1}_{i=0}}(a^{2^i})^{m_i}
+\end{align*}
+La complexité est donc en $O(n^3)$.
+
+\section{Exercice 3}
+\subsection{Montrer que $C=d^{-1}$}
+\begin{align*}
+C(x) &\equiv x^r[m]\\
+d(x) &\equiv x^s[m]
+\end{align*}
+
+Remarque : $\forall x, si m = pq, x^{(p-1)(q-1)} \equiv 1[m]$.
+
+Ainsi, $\forall m$, si $m = pq$
+\begin{align*}
+d(c(x)) &\equiv (x^r[m])^s[m]\\
+&\equiv x^{rs}[m]
+\end{align*}
+or $rs \equiv 1[(p-q)(q-1)]$\\
+$\Rightarrow d(c(x)) \equiv x[m]$\\
+$\Rightarrow d(c(x)) = x$\\
+$\Rightarrow d = c^{-1}$\\
+
+\section{Exercice 4}
+\subsection{Questions}
+\begin{enumerate}
+\item Chiffrer le message \verb?21? avec la clé publique $(103, 143)$\\
+Remarque: $21^4 \equiv 1[143]$
+\item Sachant que $m = 143 = 11 * 13$, calculer la clé privée associée à la 
+clé publique $(103, 143)$
+\item déchiffrer le message obtenu
+\end{enumerate}
+
+\subsection{Réponses}
+\begin{enumerate}
+\item
+\begin{align*}
+C(21) &\equiv 21^{103}[143]\\
+      &\equiv 21^{4*25+3}[143]\\
+      &\equiv (21^4)^{25} \times 21^3 [143]\\
+      &\equiv 21^3[143]\\
+      &\equiv 109[143]
+\end{align*}
+Le message chiffré est donc 109.
+\item 
+\begin{align*}
+rs &\equiv 1[(p-1)(q-1)]\\
+s &\equiv r^{-1}[120]\\
+  &\equiv 103^{-1}[120]\\
+  &\equiv 7[120] \text{ par l'algo d'euclide généralisé}
+\end{align*}
+
+la clé privée est donc $(7,143)$.
+
+\item $d(109) \equiv 109^7[143]$
+\end{enumerate}
