@@ -1,0 +1,105 @@
+\chapter{Travaux dirigés n\textdegree 2}
+\section{Exercice 1}
+Soient un PC ordinaire et un supercalculateur $S$ sur lesquels on voudrait
+exécuter l'algorithme de tri-fusion et le tri par insertion respectivement.
+Le PC et le supercalculateur ont respectivement des puissances de calcul
+d'un million d'instructions par secondes et de 100 millions d'instructions
+par seconde. La taille du code est respectivement de $50n log n$
+instructions et de $2n^2$ instructions.\\
+
+Donnez les temps d'exécution obtenus sur ces deux machines, avec un tableau
+d'un million d'éléments. Conclure.\\
+
+S prend $\frac{2 \times (10^6)^2\text{ instructions}}{10^8
+\text{ instructions/s}} = 20000 s = 5h56min$.\\
+
+PC prend $\frac{50 \times 10^6log10^6}{10^6} = 1000 s = 16,67min$.\\
+
+On voit ici que même si un ordinateur est très puissant, le choix d'un
+algorithme rapide est primordial. Ainsi, l'algorithmique s'apparente à la
+technologie.
+
+\section{Exercice 2}
+Les coûts communément rencontrés sont :
+
+\begin{itemize}
+\item le coût linéaire
+\item le coût quadratique
+\item le coût en $O(n logn)$
+\item le coût cubique
+\item le coût polynomial en $O(n^k)$
+\item le coût exponentiel en $O(2^n)$
+\item le coût sous-linéaire en $O(logn)$
+\end{itemize}
+
+Pour chacun de ces coûts, donnez un ou plusieurs exemples, i.e. dans quelles
+situations rencontre-t-on ces coûts ?
+
+\subsubsection{Le coût linéaire}
+Accès aux éléments d'une liste ou d'un tableau, calcul du maximum, etc ...
+
+Lorsque l'on est amené à parcourir l'ensemble des données et appliquer un
+traitement.
+
+
+\subsubsection{Le coût quadratique}
+
+Tri par insertion
+
+\subsubsection{Le coût en $O(nlogn)$}
+Tri fusion, \textit{Divide \& Conquer}, etc ...
+
+Lorsqu'on divise le problème en sous-problèmes, on traite chacun des
+résultats et qu'on combine linéairement les sous-résultats obtenus pour
+obtenir le résultat final.
+
+\subsubsection{Le coût cubique}
+
+Soient $S_1, S_2, ..., S_n$ des sous-ensembles de $\{1,2,...n\}$. On
+voudrait déterminer si des paires de sous-ensembles disjoints existent.
+\begin{verbatim}
+POUR chaque paire Si, Sj
+FAIRE
+  Vérifier si Si et Sj ont un element commun
+FIN POUR
+POUR chaque Si
+FAIRE
+  POUR chaque Sj
+  FAIRE
+    POUR chaque element p de Si
+    FAIRE
+      determiner si p est un element de Sj
+    FIN POUR
+  FIN POUR
+FIN POUR
+\end{verbatim}
+
+\subsubsection{Coût en $O(n^k)$}
+On a obtenu $O(n^2)$ en manipulant toutes les données deux par deux.\\
+
+On obtient $O(n^k)$ lorsqu'on manipule tous les sous-ensembles de taille $k$
+, $k$ étant une constante. Considérons les problèmes des ensembles
+indépendants d'un graphe $G$. Un ensemble de sommets de $G$ est indépendant
+s'il ne possède pas de sommets liés entre eux pour une arête de $G$. On veut
+savoir si un graphe $G$ possède un ensemble indépendant de taille $k$ donnée.
+
+Algorithme de Brute-force:
+On énumère tous les sous-ensembles de taille $k$ et on examine si chacun de
+ces sous ensembles possède des membres liés entre eux dans $G$.
+
+\subsubsection{Coût en $2^n$}
+On veut déterminer l'ensemble indépendant (\textit{Independant Set}) de
+de taille maximale.
+\begin{verbatim}
+POUR chaque sous-ensemble S
+FAIRE
+  SI S est une IS
+  ALORS
+    max_cout <- taille(S)
+  FIN SI
+FIN POUR
+\end{verbatim}
+Le nombre de sous-ensembles est $2^n$.
+
+\subsubsection{Coût logarithmique}
+Recherche dichotomique.
